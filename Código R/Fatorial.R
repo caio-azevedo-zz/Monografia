@@ -1,6 +1,5 @@
 # Carregando pacotes a serem utilizados
 
-library(readxl)
 library(dplyr)
 library(corrplot)
 library(psych)
@@ -13,10 +12,14 @@ rm(list=ls())
 
 #Diretório
 
-setwd("c:/Users/CAIO AZEVEDO/Documents/Documentos Caio/Github/Monografia/data")
+setwd("c:/Users/CAIO AZEVEDO/Documents/Documentos Caio/Github/Monografia")
 
+# Importando os dados disponíveis no GitHub
 
-dados<-read_xlsx("BANCO DE DADOS.xlsx")
+site<-"https://raw.githubusercontent.com/caio-azevedo/Monografia/master/data/base.csv"
+dados<- read.table(site, header=T, sep=";")
+
+# Preparação dos dados
 
 dados<-dados %>% 
   select(Municipio,x1, x2, x5, x7, x8, x9, x13, x15, x16, x17, x18)
@@ -75,10 +78,7 @@ bartlett<-factor.scores(df,PCAvarimax,
 prev<-data.frame(bartlett[["scores"]])
 
 
-# Combinando os resultados
+# Exportando os resultados
 
-base<-cbind(dados,prev)
-base<-base %>% 
-  select(-Municipio)
-
-
+write.table(prev,file='data/base_fatorial.csv',sep=';',na="",
+            quote=TRUE, row.names=TRUE, col.names = TRUE )
