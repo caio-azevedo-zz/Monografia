@@ -1,6 +1,6 @@
 # Carregando pacotes a serem utilizados
 
-library(readxl)
+
 library(foreign)
 library(dplyr)
 library(ggplot2)
@@ -14,15 +14,17 @@ rm(list=ls())
 
 #Diretório
 
-setwd("c:/Users/CAIO AZEVEDO/Documents/Documentos Caio/Artigos/Desenvolvimento Rio de Janeiro")
+setwd("c:/Users/CAIO AZEVEDO/Documents/Documentos Caio/Github/Monografia")
+
+# Importando os dados disponíveis no GitHub
+
+site<-"https://raw.githubusercontent.com/caio-azevedo/Monografia/master/data/base_fatorial.csv"
+dados<- read.table(site, header=T, sep=";")
 
 
-dados<-read_xls("artigo.xls")
+# Preparação dos dados
 
-#scale(dados)# normalização das variáveis
-
-df<-as.matrix(dados[,13:15])
-row.names(df)<-dados$A
+df<-as.matrix(dados)
 
 
 
@@ -195,7 +197,7 @@ base<-cbind(df, cluster_single, cluster_average, cluster_complete, cluster_ward)
 
 sumario<-base %>% 
   group_by(Ward) %>% 
-  summarise(Media_1=mean(fbar1), Media_2=mean(fbar2), Media_3=mean(fbar3), Freq=n())
+  summarise(Media_1=mean(RC1), Media_2=mean(RC2), Media_3=mean(RC3), Freq=n())
 
 
 # Conferir
